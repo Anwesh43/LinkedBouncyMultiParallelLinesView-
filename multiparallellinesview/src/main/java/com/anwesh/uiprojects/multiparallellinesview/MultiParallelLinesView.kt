@@ -28,7 +28,7 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 fun Canvas.drawParallelLine(i : Int, scale : Float, size : Float, paint : Paint) {
     val sf : Float = scale.sinify().divideScale(i, lines)
     val gap : Float = (size / lines)
-    val a : Float = gap * i + gap * sf
+    val a : Float = gap * (i + 1) * sf
     for (j in 0..1) {
         save()
         translate(0f, a * 0.5f * (1f - 2 * j))
