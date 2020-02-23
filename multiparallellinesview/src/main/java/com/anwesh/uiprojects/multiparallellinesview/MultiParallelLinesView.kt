@@ -15,9 +15,8 @@ import android.graphics.Color
 val colors : Array<String> = arrayOf("#4CAF50", "#1565C0", "#f44336", "#673AB7", "#EF6C00")
 val deg : Float = 90f
 val lines : Int = 5
-val scGap : Float = 0.02f
+val scGap : Float = 0.02f / lines
 val strokeFactor : Int = 90
-val sizeFactor : Float = 2.9f
 val backColor : Int = Color.parseColor("#BDBDBD")
 val delay : Long = 20
 
@@ -28,18 +27,21 @@ fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
 
 fun Canvas.drawParallelLine(i : Int, scale : Float, size : Float, paint : Paint) {
     val sf : Float = scale.sinify().divideScale(i, lines)
-    val gap : Float = (size / lines) * (i + 1)
+    val gap : Float = (size / lines)
+    val a : Float = gap * i + gap * sf
     for (j in 0..1) {
         save()
-        translate(0f, gap * 0.5f * (1f - 2 * j) * sf)
-        rotate(90f * sf)
-        drawLine(0f, -gap / 2, 0f, gap / 2, paint)
+        translate(0f, a * 0.5f * (1f - 2 * j))
+        rotate(deg * sf)
+        drawLine(0f, -a / 2, 0f, a / 2, paint)
         restore()
     }
 }
 
 fun Canvas.drawMultiParallelLine(scale : Float, size : Float, paint : Paint) {
-    for (j in 0..(lines - 1)) {
+    val scDiv : Double = 1.0 / lines
+    val k : Int = Math.floor(scale.sinify() / scDiv).toInt()
+    for (j in 0..k) {
         drawParallelLine(j, scale, size, paint)
     }
 }
