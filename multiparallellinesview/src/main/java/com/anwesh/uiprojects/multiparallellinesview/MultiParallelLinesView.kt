@@ -183,4 +183,27 @@ class MultiParallelLinesView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : MultiParallelLinesView) {
+
+        private val animator : Animator = Animator(view)
+        private val mpl : MultiParallelLines = MultiParallelLines(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            mpl.draw(canvas, paint)
+            animator.animate {
+                mpl.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            mpl.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
