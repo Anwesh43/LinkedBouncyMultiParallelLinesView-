@@ -208,4 +208,13 @@ class MultiParallelLinesView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : MultiParallelLinesView {
+            val view : MultiParallelLinesView = MultiParallelLinesView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
